@@ -1,0 +1,11 @@
+{
+  "name": "Vamos",
+  "short_name": "Vamos",
+  "description": "Chicago driving, one calm step at a time.",
+  "start_url": "./#/today",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fbf7ef",
+  "theme_color": "#1f4fd1",
+  "icons": [{ "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}
