@@ -14,6 +14,7 @@ Legend: [x] done and tested · [~] done, partly tested or needs review · [ ] no
 - [x] Export, import (validated, size-limited) and scoped resets with confirmation
 - [x] Production build, type checks, unit tests (50), browser tests (30 across 3 widths)
 - [x] GitHub Actions workflow for tests and GitHub Pages deploy
+- [~] Deployed: https://nicoleakoukouthompson.github.io/vamos/ (workflow build and deploy jobs succeeded on 2026-11-17; the live page could not be opened from the build environment, whose network blocks github.io)
 
 ### Learning
 - [x] 31 lessons in 19 units covering every handbook driving topic in the brief (eight-part structure)
