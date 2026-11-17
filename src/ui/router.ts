@@ -19,7 +19,24 @@ export function useRoute(): string {
   return useSyncExternalStore(subscribe, current, () => '/today');
 }
 
+let leaveGuard: (() => string | null) | null = null;
+
+/** A screen with unsaved edits registers a message; leaving asks the learner first. */
+export function setLeaveGuard(fn: (() => string | null) | null) {
+  leaveGuard = fn;
+}
+
+/** Returns true when it is fine to leave the current screen. */
+export function confirmLeave(): boolean {
+  const msg = leaveGuard?.();
+  if (!msg) return true;
+  const ok = window.confirm(msg);
+  if (ok) leaveGuard = null;
+  return ok;
+}
+
 export function navigate(path: string) {
+  if (!confirmLeave()) return;
   if (current() === path) return;
   window.location.hash = path;
 }

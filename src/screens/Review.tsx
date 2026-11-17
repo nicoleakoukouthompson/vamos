@@ -3,7 +3,8 @@ import { questionById, units } from '../content';
 import { formatDate } from '../core/dates';
 import { dueCount, dueItems } from '../core/review';
 import { useT } from '../i18n/useT';
-import { clearReviewSession, patchReviewSession, recordAnswer, startReviewSession, todayFor, useProfile } from '../store/store';
+import { clearReviewSession, patchReviewSession, recordAnswer, saveNow, startReviewSession, todayFor, useProfile } from '../store/store';
+import { navigate } from '../ui/router';
 import { Btn, Card, LinkBtn, Notice, Progress } from '../ui/kit';
 import { PracticeQuestion } from '../ui/QuestionCard';
 
@@ -52,7 +53,10 @@ export function Review() {
             onNext={() => patchReviewSession({ qIndex: s.qIndex + 1 })}
           />
         </Card>
-        <Btn kind="ghost" onClick={() => clearReviewSession()}>{t('pauseLesson')}</Btn>
+        <div className="row wrap">
+          <Btn icon="check" onClick={() => { saveNow(); navigate('/today'); }}>{t('saveAndExit')}</Btn>
+          <span className="muted small">{t('progressSavedNote')}</span>
+        </div>
       </div>
     );
   }

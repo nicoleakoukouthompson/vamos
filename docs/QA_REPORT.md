@@ -2,7 +2,7 @@
 
 Date: 2026-11-17. Build environment: Linux container, Node 22, headless Chromium 1243 (Playwright). Content version 2026.11.1.
 
-## Automated: unit tests (Vitest), 50 passing
+## Automated: unit tests (Vitest), 51 passing
 
 Run: `npm test`
 
@@ -14,12 +14,12 @@ Run: `npm test`
 | Planner (6) | 30, 60 and 90 day plans differ; no day exceeds the session length; past date, too-close date and no study days; workload too large reports extra minutes needed; completed work preserved and "ahead" detected; flexible plans |
 | Exam (6) | 35 questions with no duplicate IDs over 39 seeds; at least 10 sign questions and every topic present; fixed-order items keep order; recently seen questions avoided; 28/35 passes and 27/35 fails; unanswered count as incorrect; one strong attempt or the same questions repeated is not "consistent" |
 | Points (1) | Ledger cannot award a key twice |
-| Store (12, jsdom) | Two neutral learners and no seeded progress; learners independent (review, language, unfinished lesson); reload restores active learner, names and progress; interrupted lesson resumes at the same step and question; corrupt storage recovered with a copy kept; invalid structure rejected; backup round-trip; import rejects non-JSON, non-Vamos, invalid, oversized and newer-version files; HTML in notes stays plain text; scoped reset affects only the chosen data and learner; lesson points not farmable; review points once per question per day; wrong answers enter review; exam resume, single submit, history not overwritten, discard, answers ignored without an active exam |
+| Store (13, jsdom) | Older saved data without the theme setting loads unchanged;  Two neutral learners and no seeded progress; learners independent (review, language, unfinished lesson); reload restores active learner, names and progress; interrupted lesson resumes at the same step and question; corrupt storage recovered with a copy kept; invalid structure rejected; backup round-trip; import rejects non-JSON, non-Vamos, invalid, oversized and newer-version files; HTML in notes stays plain text; scoped reset affects only the chosen data and learner; lesson points not farmable; review points once per question per day; wrong answers enter review; exam resume, single submit, history not overwritten, discard, answers ignored without an active exam |
 | Strings (2) | Every interface key has both languages with matching placeholders, no emojis or em dashes; every `t('key')` used in source exists |
 | Voice parsing (1) | "B", "option three", "la segunda", "opción uno", "verdadero", "false"; nonsense and out-of-range rejected |
 | Calendar (1) | Weekly RRULE on chosen days, local time zone start and end, alarm |
 
-## Automated: browser tests (Playwright), 30 passing
+## Automated: browser tests (Playwright), 42 passing
 
 Run: `npm run e2e`. Each test runs at 360x780 (phone), 820x1100 (tablet) and 1366x900 (desktop).
 
@@ -33,6 +33,10 @@ Run: `npm run e2e`. Each test runs at 360x780 (phone), 820x1100 (tablet) and 136
 8. A recognized spoken answer is shown and requires "Use this answer" before grading
 9. With map tiles blocked, a fallback notice appears, the list still works, scenario labels and OpenStreetMap attribution are visible
 10. Corrupt stored data shows a notice and the app still loads
+11. Renaming shows "Unsaved changes", then an inline "Saved as" confirmation, and survives reload
+12. Settings changes are not stored until Save; leaving with unsaved changes asks first and can be cancelled
+13. The header save button confirms saving
+14. A practice test can be saved, exited and resumed after reload with answers intact
 
 ## Manual checks performed (headless Chromium screenshots)
 

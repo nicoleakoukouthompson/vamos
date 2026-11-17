@@ -25,17 +25,38 @@ export function initStore(initial?: { data: AppData; status: LoadStatus }) {
   if (loaded.status === 'fresh' || loaded.status === 'recovered-corrupt') persist();
 }
 
+let lastSavedAt: number | null = null;
+let dirtyDrafts = 0;
+
 function persist() {
   if (loadStatus === 'unavailable') return;
   saveFailed = !saveData(state);
+  if (!saveFailed) lastSavedAt = Date.now();
 }
+
+/** Explicit save (header button). Returns true when the data is safely stored. */
+export function saveNow(): boolean {
+  persist();
+  emit();
+  return loadStatus !== 'unavailable' && !saveFailed;
+}
+
+export const getLastSavedAt = () => lastSavedAt;
+export const isStorageAvailable = () => loadStatus !== 'unavailable';
+
+/** Screens with unsaved form drafts register here so the header can say so. */
+export function setDraftDirty(dirty: boolean) {
+  dirtyDrafts = Math.max(0, dirtyDrafts + (dirty ? 1 : -1));
+  emit();
+}
+export const hasUnsavedDrafts = () => dirtyDrafts > 0;
 
 function emit() {
   for (const l of listeners) l();
 }
 
 function set(next: AppData) {
-  state = next;
+  state = { ...next };
   persist();
   emit();
 }

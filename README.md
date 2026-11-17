@@ -70,6 +70,9 @@ Any static host works: run `npm run build` and upload `dist/`. Routing uses `#/`
 
 ## Where progress is saved
 
+- Lesson answers, review and practice tests save automatically after every answer. Lessons, review and practice tests also have **Save and exit** buttons.
+- In **Goals and settings**, changes are drafts until you press **Save** (each section has its own button, and a **Save all** bar appears while anything is unsaved). Leaving with unsaved changes asks first.
+- The status button at the top of every screen shows **Saved** or **Unsaved changes**; tap it to save immediately.
 - In this browser on this device only (`localStorage`), with a versioned schema, validation and migrations.
 - It does **not** sync across devices. Use **Export backup** and **Import backup** to move it.
 - The two profiles share one device. They keep progress separate, but they are not password protected and are not a privacy boundary.

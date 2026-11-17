@@ -647,3 +647,50 @@ html[data-theme="dark"] .more-list a, html[data-theme="dark"] .lesson-link { col
 html[data-theme="dark"] .path-unit .lesson-link.is-next .lesson-status { color: var(--ink); }
 html[data-theme="dark"] .stepper li.is-done { color: #7fe0a6; }
 html[data-theme="dark"] .btn-secondary { color: var(--ink); }
+
+/* ------------------------------------------------------------------
+ * Saving: header status, section save rows, sticky save bar
+ * ------------------------------------------------------------------ */
+.save-chip { gap: 6px; font-size: 0.9rem; }
+.save-chip.save-saved { color: var(--teal); }
+.save-chip.save-unsaved { color: #8a5a00; background: var(--amber-soft); }
+.save-chip.save-failed { color: #fff; background: var(--coral); }
+.save-toast {
+  position: fixed; top: 70px; left: 50%; transform: translateX(-50%); z-index: 60;
+  display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; border-radius: 999px;
+  background: var(--ink); color: var(--card); font-weight: 700; font-size: 0.92rem; box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  white-space: nowrap;
+}
+.save-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 8px; padding-top: 12px; border-top: 1px solid var(--line); }
+.save-feedback { display: inline-flex; align-items: center; min-height: 24px; }
+.saved-ok { display: inline-flex; align-items: center; gap: 4px; color: var(--teal); font-weight: 700; }
+.unsaved-dot { display: inline-flex; align-items: center; gap: 6px; color: #8a5a00; font-weight: 700; }
+.unsaved-dot::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--amber); }
+.profile-row .save-feedback { flex-basis: 100%; }
+.save-bar {
+  position: sticky; bottom: calc(var(--nav-h) + 12px); z-index: 25;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px; justify-content: flex-end;
+  padding: 10px 12px; border-radius: 16px; background: var(--ink); color: var(--card);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+.save-bar-text { margin-right: auto; }
+.save-bar .unsaved-dot { color: var(--card); }
+.save-bar .btn-ghost { color: var(--card); }
+.save-bar .btn-primary { background: var(--cobalt); color: #fff; }
+@media (min-width: 960px) { .save-bar { bottom: 16px; } }
+html[data-theme="dark"] .save-chip.save-unsaved, html[data-theme="dark"] .unsaved-dot { color: #ffd27a; }
+html[data-theme="dark"] .save-bar .unsaved-dot, html[data-theme="dark"] .save-bar .btn-ghost { color: #000; }
+html[data-theme="dark"] .save-bar .btn-primary { color: #fff; }
+/* Narrow phones: icon-only save status and logo mark only. */
+@media (max-width: 430px) {
+  .save-chip-text { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .save-chip { padding: 6px 12px; }
+  .brand-name { display: none; }
+}
+@media (max-width: 400px) { .save-chip .icon { display: inline-block; } }
+.save-bar { flex-wrap: nowrap; padding: 8px 8px 8px 14px; gap: 6px; }
+.save-bar .btn { min-height: 44px; padding: 8px 12px; white-space: nowrap; }
+.save-bar-text { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.9rem; }
+@media (max-width: 380px) { .save-bar .btn-ghost { padding: 8px 6px; } }
+.btn-primary:disabled { background: var(--cream-2); color: var(--muted); opacity: 1; }
+.btn-primary:disabled .icon { opacity: 0.6; }

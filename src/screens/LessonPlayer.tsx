@@ -3,7 +3,7 @@ import { lessonById, lessonOrder, questionById } from '../content';
 import { glossary } from '../content/sources';
 import { useT } from '../i18n/useT';
 import {
-  addConfidence, clearLessonSession, completeLesson, patchLessonSession, recordAnswer, startLessonSession, useProfile,
+  addConfidence, clearLessonSession, completeLesson, patchLessonSession, recordAnswer, saveNow, startLessonSession, useProfile,
 } from '../store/store';
 import { Icon } from '../ui/icons';
 import { Btn, Card, LinkBtn, Notice, Progress, Rating, ReadAloud, Visual } from '../ui/kit';
@@ -84,7 +84,7 @@ export function LessonPlayer({ lessonId }: { lessonId: string }) {
     <div className="lesson-head">
       <div className="row between wrap">
         <a href="#/learn" className="back-link"><Icon name="arrowLeft" size={16} /> {t('navLearn')}</a>
-        <Btn small kind="ghost" icon="pause" onClick={() => setPaused(true)}>{t('pauseLesson')}</Btn>
+        <Btn small kind="ghost" icon="check" onClick={() => { saveNow(); setPaused(true); }}>{t('pauseLesson')}</Btn>
       </div>
       <h1>{c(lesson.title)}</h1>
       <Progress value={Math.min(step, STEPS.length)} max={STEPS.length} label={t('lessonProgress')} />

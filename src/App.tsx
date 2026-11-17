@@ -1,7 +1,7 @@
-import { Component, lazy, Suspense, useEffect, useRef, useState, type ReactNode } from 'react';
+import { Component, lazy, Suspense, useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
 import { LangContext, translate, useT } from './i18n/useT';
-import { getLoadStatus, getSaveFailed, setLang, switchProfile, useAppState, useProfile } from './store/store';
-import { matchRoute, useRoute, useRouteEffects } from './ui/router';
+import { getLastSavedAt, getLoadStatus, getSaveFailed, hasUnsavedDrafts, saveNow, setLang, subscribe, switchProfile, useAppState, useProfile } from './store/store';
+import { confirmLeave, matchRoute, useRoute, useRouteEffects } from './ui/router';
 import { Icon, type IconName } from './ui/icons';
 import { Notice, LinkBtn } from './ui/kit';
 import { stopSpeaking } from './voice/speech';
@@ -97,7 +97,7 @@ function LearnerSwitcher() {
           <p className="menu-title">{t('switchLearner')}</p>
           {s.profileOrder.map((id) => (
             <button key={id} type="button" className={`menu-item${id === s.activeProfileId ? ' is-active' : ''}`} aria-pressed={id === s.activeProfileId}
-              onClick={() => { stopSpeaking(); switchProfile(id); setOpen(false); }}>
+              onClick={() => { if (id !== s.activeProfileId && !confirmLeave()) return; stopSpeaking(); switchProfile(id); setOpen(false); }}>
               <Icon name="user" /> {s.profiles[id].name}
               {id === s.activeProfileId && <span className="muted small"> ({t('isActive')})</span>}
             </button>
@@ -107,6 +107,35 @@ function LearnerSwitcher() {
         </div>
       )}
     </div>
+  );
+}
+
+const saveSnapshot = () => `${hasUnsavedDrafts() ? 'u' : ''}|${getSaveFailed() || getLoadStatus() === 'unavailable' ? 'f' : ''}|${getLastSavedAt() ?? ''}`;
+
+/** Live save status in the header. Tapping it saves immediately and confirms. */
+function SaveStatus() {
+  const { t } = useT();
+  const snap = useSyncExternalStore(subscribe, saveSnapshot, saveSnapshot);
+  const [, failedFlag] = snap.split('|');
+  const unsaved = snap.startsWith('u');
+  const [flash, setFlash] = useState(false);
+  useEffect(() => {
+    if (!flash) return;
+    const id = setTimeout(() => setFlash(false), 2200);
+    return () => clearTimeout(id);
+  }, [flash]);
+  const state = failedFlag ? 'failed' : unsaved ? 'unsaved' : 'saved';
+  const label = state === 'failed' ? t('saveStatusFailed') : state === 'unsaved' ? t('saveStatusUnsaved') : t('saveStatusSaved');
+  return (
+    <>
+      <button type="button" className={`chip save-chip save-${state}`} onClick={() => { if (saveNow()) setFlash(true); }}
+        aria-label={t('saveNowLabel', { s: label })} title={t('dataWhere')}>
+        <Icon name={state === 'saved' ? 'check' : 'alert'} size={16} />
+        <span className="save-chip-text">{label}</span>
+      </button>
+      <span className="sr-only" role="status" aria-live="polite">{flash ? t('savedJustNow') : ''}</span>
+      {flash && <span className="save-toast" aria-hidden="true"><Icon name="check" size={16} /> {t('savedJustNow')}</span>}
+    </>
   );
 }
 
@@ -185,7 +214,10 @@ function Shell({ route }: { route: string }) {
   const isActive = (path: string) => base === path || (path === '/learn' && base === '/lesson');
   const onMore = !NAV.filter((n) => n.mobile).some((n) => isActive(n.path));
   return (
-    <div className="app">
+    <div className="app" onClickCapture={(e) => {
+      const a = (e.target as HTMLElement).closest?.('a[href^="#/"]');
+      if (a && !confirmLeave()) { e.preventDefault(); e.stopPropagation(); }
+    }}>
       <a className="skip" href="#main" onClick={(e) => { e.preventDefault(); document.querySelector<HTMLElement>('main h1')?.focus(); }}>{t('skipToContent')}</a>
       <header className="topbar">
         <a href="#/today" className="brand" aria-label={`${t('appName')}. ${t('navToday')}`}>
@@ -193,7 +225,7 @@ function Shell({ route }: { route: string }) {
           <span className="brand-name">Vamos</span>
         </a>
         <div className="topbar-right">
-          <span className="saved-pill small" title={t('dataWhere')}><Icon name="check" size={14} /> {t('savedOnDevice')}</span>
+          <SaveStatus />
           <LearnerSwitcher />
           <LangToggle />
         </div>

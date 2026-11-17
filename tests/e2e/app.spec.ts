@@ -100,7 +100,8 @@ test('profiles stay separate and can be renamed', async ({ page }) => {
   await page.goto('/#/settings');
   const inputs = page.getByLabel('Display name');
   await inputs.nth(1).fill('Ana');
-  await page.getByRole('button', { name: 'Rename' }).nth(1).click();
+  await page.getByRole('button', { name: 'Save name' }).nth(1).click();
+  await expect(page.getByText('Saved as "Ana"')).toBeVisible();
   await page.goto('/#/lesson/l-start-test');
   await page.goto('/#/today');
   await page.getByRole('button', { name: /Switch learner/ }).click();
@@ -165,4 +166,57 @@ test('corrupt storage shows a notice instead of crashing', async ({ page }) => {
   await page.reload();
   await expect(page.getByText('could not be read')).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Hi, Learner 1' })).toBeVisible();
+});
+
+test('rename shows an inline confirmation and survives reload', async ({ page }) => {
+  await fresh(page);
+  await page.goto('/#/settings');
+  const save = page.getByRole('button', { name: 'Save name' }).first();
+  await expect(save).toBeDisabled();
+  await page.getByLabel(/Display name/).first().fill('Nicole');
+  await expect(page.getByText('Unsaved changes').first()).toBeVisible();
+  await save.click();
+  await expect(page.getByText('Saved as "Nicole"')).toBeVisible();
+  await page.reload();
+  await expect(page.getByLabel(/Display name/).first()).toHaveValue('Nicole');
+  await page.goto('/#/today');
+  await expect(page.getByRole('heading', { name: 'Hi, Nicole' })).toBeVisible();
+});
+
+test('settings changes wait for Save, and leaving asks first', async ({ page }) => {
+  await fresh(page);
+  await page.goto('/#/settings');
+  await page.getByText('3 months').click();
+  await expect(page.locator('.save-bar')).toBeVisible();
+  const stored = () => page.evaluate(() => JSON.parse(localStorage.getItem('vamos:data')!).profiles.p1.plan.preset);
+  expect(await stored()).toBe('1m');
+  // Leaving is blocked when the learner cancels the prompt.
+  page.once('dialog', (d) => d.dismiss());
+  await page.locator('a[href="#/today"]:visible').last().click();
+  await expect(page).toHaveURL(/#\/settings/);
+  await page.getByRole('button', { name: 'Save plan' }).click();
+  await expect(page.locator('.save-bar')).toHaveCount(0);
+  expect(await stored()).toBe('3m');
+  await page.goto('/#/today');
+  await expect(page.locator('main h1')).toBeVisible();
+});
+
+test('header save button confirms saving', async ({ page }) => {
+  await fresh(page);
+  await page.getByRole('button', { name: /Save now/ }).click();
+  await expect(page.getByRole('status').filter({ hasText: 'All progress saved on this device' })).toBeAttached();
+});
+
+test('practice test can be saved and resumed', async ({ page }) => {
+  await fresh(page);
+  await page.goto('/#/exam');
+  await page.getByRole('button', { name: 'Start practice test' }).click();
+  await page.locator('.choice').first().click();
+  await page.getByRole('button', { name: 'Save and exit' }).click();
+  await expect(page.getByRole('button', { name: 'Continue practice test' })).toBeVisible();
+  await page.reload();
+  await page.getByRole('button', { name: 'Continue practice test' }).click();
+  await expect(page.getByText('Question 2 of 35')).toBeVisible(); // resumes at the first unanswered question
+  await page.getByRole('button', { name: 'Previous' }).click();
+  await expect(page.locator('.choice.is-selected')).toHaveCount(1);
 });

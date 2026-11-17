@@ -4,7 +4,7 @@ import type { ChoiceQuestion, TopicId } from '../content/types';
 import { EXAM_FORMAT, readinessSignal, type ExamAttempt } from '../core/exam';
 import { formatDate } from '../core/dates';
 import { useT } from '../i18n/useT';
-import { answerExam, discardActiveExam, startExam, submitExam, toggleExamFlag, updateSettings, useProfile } from '../store/store';
+import { answerExam, discardActiveExam, saveNow, startExam, submitExam, toggleExamFlag, updateSettings, useProfile } from '../store/store';
 import { Icon } from '../ui/icons';
 import { Btn, Card, ConfirmDialog, LinkBtn, Notice, Progress } from '../ui/kit';
 import { ExamQuestion, ReviewedQuestion } from '../ui/QuestionCard';
@@ -128,7 +128,11 @@ function Runner({ a }: { a: ExamAttempt }) {
         )}
         <div className="row wrap">
           <Btn kind="primary" onClick={() => setConfirm(true)}>{t('reviewAndSubmit')}</Btn>
+          <Btn icon="check" onClick={() => { saveNow(); navigate('/today'); }}>{t('saveAndExit')}</Btn>
           <Btn kind="ghost" onClick={() => setDiscard(true)}>{t('discardExam')}</Btn>
+        </div>
+        <p className="muted small">{t('progressSavedNote')}</p>
+        <div>
         </div>
       </Card>
       <ConfirmDialog open={confirm} title={t('submitConfirmTitle')}
