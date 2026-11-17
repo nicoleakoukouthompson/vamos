@@ -1,20 +1,19 @@
 # Vamos design system
 
-Adult, warm and calm, inspired by Chicago transit wayfinding: strong type, clear color roles, generous space. All tokens live in `src/index.css` under `:root`.
+Sleek, high-contrast and calm: a white canvas, black type and controls, soft gray tiles, and an electric blue accent, with strong type and generous space. Inspired by the clarity of modern ride-hailing apps without copying any brand. Tokens live in `src/index.css` under `:root`; the "Sleek theme layer" at the end of that file holds component styling.
 
 ## Color
 
 | Token | Value | Role |
 |---|---|---|
-| `--cream` | #fbf7ef | Page background |
-| `--card` | #ffffff | Cards, inputs |
-| `--ink` | #14213d | Primary text, selected segmented controls |
-| `--ink-2`, `--muted` | #3d4a63, #5b6577 | Secondary text (both pass 4.5:1 on cream and white) |
-| `--cobalt` | #1f4fd1 | Primary actions, links, current navigation, the learner's car |
-| `--teal` | #0b7a62 | Success, completed lessons, studied days |
-| `--amber` | #e9a23b | Accent, scenario cards, "needs attention" feedback |
-| `--coral` | #b9381f | Wrong answer marker, destructive actions |
-| `--focus` | #f2b705 | 3px focus ring on every interactive element |
+| page background | #ffffff | Canvas |
+| `--cream` / `--cream-2` | #f3f3f3 / #eeeeee | Gray tiles: choices, inputs, chips, list items |
+| `--ink` | #000000 | Text, primary buttons, selected states, active navigation |
+| `--ink-2`, `--muted` | #333333, #5e5e5e | Secondary text (both pass 4.5:1 on white and gray tiles) |
+| `--cobalt` | #1f5bff | Accent: the main Today action, progress, links, the learner's car, focus ring |
+| `--teal` | #05823f | Success, completed lessons, studied days |
+| `--amber` | #ffb000 | Attention feedback, scenario labels |
+| `--coral` | #d32f1e | Wrong answer marker, destructive actions |
 
 Meaning never depends on color alone: correct and wrong answers also get icons, text tags and a dashed border for wrong; signals carry text captions; scene vehicles carry text labels.
 
@@ -24,8 +23,8 @@ System font stack, 17px base, 800 weight headings, 1.55 line height. Base spacin
 
 ## Components
 
-- **Buttons:** primary (cobalt), secondary (outlined), ghost, danger. Minimum height 44 to 46px.
-- **Cards:** white with a 1px warm border and a soft shadow. The hero card on Today has a cobalt left rule.
+- **Buttons:** primary (black), secondary (gray tile), ghost (underlined text), danger. On the dark Today card the primary action is electric blue. Minimum height 44 to 46px.
+- **Cards:** white, borderless, soft shadow, 16px radius. Today's session card is dark (black with a deep blue glow). The lesson-complete card is green.
 - **Choices:** full-width cards with letter badges. Native radio inputs underneath, so arrow keys, Tab and screen readers work; number keys 1 to 4 also select.
 - **Rating:** 1 to 5 radio group labeled from "Not yet" to "Very".
 - **Dialogs:** native `<dialog>` with focus containment and Escape to close.

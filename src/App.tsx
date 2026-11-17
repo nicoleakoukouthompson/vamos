@@ -176,7 +176,7 @@ function Shell({ route }: { route: string }) {
       <a className="skip" href="#main" onClick={(e) => { e.preventDefault(); document.querySelector<HTMLElement>('main h1')?.focus(); }}>{t('skipToContent')}</a>
       <header className="topbar">
         <a href="#/today" className="brand" aria-label={`${t('appName')}. ${t('navToday')}`}>
-          <svg className="brand-mark" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="var(--cobalt)" /><path d="M8 9l8 15 8-15" stroke="#fff" strokeWidth="3.4" fill="none" strokeLinecap="round" strokeLinejoin="round" /><circle cx="16" cy="9" r="2.2" fill="var(--amber)" /></svg>
+          <svg className="brand-mark" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#000" /><path d="M8 9l8 15 8-15" stroke="#fff" strokeWidth="3.4" fill="none" strokeLinecap="round" strokeLinejoin="round" /><circle cx="16" cy="9" r="2.4" fill="#1f5bff" /></svg>
           <span className="brand-name">Vamos</span>
         </a>
         <div className="topbar-right">
