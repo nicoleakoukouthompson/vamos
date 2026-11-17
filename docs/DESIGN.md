@@ -17,9 +17,17 @@ Sleek, high-contrast and calm: a white canvas, black type and controls, soft gra
 
 Meaning never depends on color alone: correct and wrong answers also get icons, text tags and a dashed border for wrong; signals carry text captions; scene vehicles carry text labels.
 
+## Dark mode
+
+`html[data-theme="dark"]` swaps the tokens: black page, #141414 cards, #1e1e1e tiles, white text and controls, brighter blue (#4d7cff), green (#2fb36a) and coral. The theme follows the device by default and can be set in Goals and settings > Comfort and accessibility > Appearance. Traffic diagrams keep their light road palette, slightly dimmed.
+
+## Learning path colors
+
+Each unit gets its own accent (`--unit`), cycling through blue #1f5bff, green #05823f, purple #7b3fe4, orange #c2410c, teal #0b7f8a and pink #d0336c (all pass 4.5:1 with white text). The accent colors the unit's top bar, number badge, progress bar, completed-lesson dots and next-lesson outline.
+
 ## Type and spacing
 
-System font stack, 17px base, 800 weight headings, 1.55 line height. Base spacing 16px; cards use 18px padding and 14px radius.
+System font stack, 17px base, large 850 weight page headings (2 to 2.9rem, tight letter spacing), 1.55 line height. Base spacing 16px; cards use 18px padding and 14px radius.
 
 ## Components
 

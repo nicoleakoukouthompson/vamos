@@ -80,6 +80,8 @@ export interface ReviewSession {
 
 export interface ProfileSettings {
   reducedMotion: 'system' | 'on' | 'off';
+  /** Color theme. Added after release, so stored data without it defaults to 'system'. */
+  theme: 'system' | 'light' | 'dark';
   voiceRate: number;
   showStreak: boolean;
   examTimer: boolean;
@@ -130,7 +132,7 @@ export function newProfile(id: string, name: string, today: ISODate, lang: Lang 
     exams: [], activeExam: null, confidence: [], checklist: {},
     practiceLogs: [], providers: [],
     lessonSession: null, reviewSession: null,
-    settings: { reducedMotion: 'system', voiceRate: 1, showStreak: false, examTimer: false, examTimerMinutes: 45, smallerSteps: false },
+    settings: { reducedMotion: 'system', theme: 'system', voiceRate: 1, showStreak: false, examTimer: false, examTimerMinutes: 45, smallerSteps: false },
     activeDays: [], lastActive: null,
   };
 }
@@ -202,7 +204,7 @@ const profile = z.object({
   }).nullable(),
   reviewSession: z.object({ queue: z.array(id).max(40), qIndex: z.number().int().min(0), done: z.array(id), startedAt: isoDate }).nullable(),
   settings: z.object({
-    reducedMotion: z.enum(['system', 'on', 'off']), voiceRate: z.number().min(0.5).max(2), showStreak: z.boolean(),
+    reducedMotion: z.enum(['system', 'on', 'off']), theme: z.enum(['system', 'light', 'dark']).default('system'), voiceRate: z.number().min(0.5).max(2), showStreak: z.boolean(),
     examTimer: z.boolean(), examTimerMinutes: z.number().int().min(5).max(240), smallerSteps: z.boolean(),
   }),
   activeDays: z.array(isoDate).max(2000), lastActive: isoDate.nullable(),

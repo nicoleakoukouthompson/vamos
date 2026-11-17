@@ -545,3 +545,105 @@ input:focus, select:focus, textarea:focus { background: #fff; border-color: var(
 .label-illustrated { background: var(--amber-soft); }
 .scene-svg { border: 0; border-radius: 14px; }
 .hero-card .btn-full + * { margin-top: 12px; }
+
+/* ------------------------------------------------------------------
+ * Bigger headlines
+ * ------------------------------------------------------------------ */
+h1 { font-size: clamp(2rem, 1.4rem + 2.6vw, 2.9rem); line-height: 1.05; letter-spacing: -0.035em; font-weight: 850; }
+.page-head h1 { margin-bottom: 0.3em; }
+.lesson-head h1 { font-size: clamp(1.7rem, 1.3rem + 2vw, 2.4rem); }
+.big-line { font-size: clamp(1.35rem, 1.1rem + 1vw, 1.7rem); line-height: 1.15; }
+.eyebrow { letter-spacing: 0.1em; }
+
+/* ------------------------------------------------------------------
+ * Colorful learning path: each unit has its own accent (--unit)
+ * ------------------------------------------------------------------ */
+.path-unit { --unit: var(--cobalt); border-top: 5px solid var(--unit); }
+.path-unit .unit-num { background: var(--unit); color: #fff; }
+.unit-progress { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; margin-top: 10px; }
+.unit-progress .progress-fill { background: var(--unit); }
+.path-unit .lesson-link.is-done .lesson-dot { background: var(--unit); border-color: var(--unit); }
+.path-unit .lesson-link.is-done .lesson-status { color: var(--muted); }
+.path-unit .lesson-link.is-next { border-color: var(--unit); }
+.path-unit .lesson-link.is-next .lesson-dot { border-color: var(--unit); }
+.path-unit .lesson-link.is-next .lesson-status { color: var(--unit); }
+.path-unit .lesson-link:hover { border-color: var(--unit); }
+
+/* ------------------------------------------------------------------
+ * Dark mode (html[data-theme="dark"], set from Settings or the device)
+ * ------------------------------------------------------------------ */
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --cream: #1e1e1e;
+  --cream-2: #2a2a2a;
+  --card: #141414;
+  --ink: #ffffff;
+  --ink-2: #dddddd;
+  --muted: #a6a6a6;
+  --line: #2c2c2c;
+  --cobalt: #4d7cff;
+  --cobalt-dark: #8aa9ff;
+  --cobalt-soft: #16224a;
+  --teal: #2fb36a;
+  --teal-soft: #0f2a1b;
+  --amber: #ffb000;
+  --amber-soft: #2e2410;
+  --coral: #ff6b5a;
+  --coral-soft: #3a1714;
+  --focus: #8aa9ff;
+  --shadow: 0 0 0 1px #262626;
+}
+html[data-theme="dark"] body { background: #000; color: var(--ink); }
+html[data-theme="dark"] .topbar { background: rgba(0, 0, 0, 0.9); border-bottom-color: #222; }
+html[data-theme="dark"] .bottomnav { background: #0b0b0b; border-top-color: #222; }
+html[data-theme="dark"] .bottomnav a { color: #8a8a8a; }
+html[data-theme="dark"] .bottomnav a[aria-current="page"] { color: #fff; }
+html[data-theme="dark"] .sidenav { border-right-color: #222; }
+html[data-theme="dark"] .sidenav a { color: #cfcfcf; }
+html[data-theme="dark"] .brand-mark rect { fill: #fff; }
+html[data-theme="dark"] .brand-mark path { stroke: #000; }
+/* Elements that sit on --ink (now white) need dark text. */
+html[data-theme="dark"] .btn-primary,
+html[data-theme="dark"] .unit-num,
+html[data-theme="dark"] .order-num,
+html[data-theme="dark"] .stepper li.is-current,
+html[data-theme="dark"] .segmented button[aria-pressed="true"],
+html[data-theme="dark"] .seg-opt.is-on,
+html[data-theme="dark"] .day-pick.is-on,
+html[data-theme="dark"] .rating-opt.is-on,
+html[data-theme="dark"] .choice.is-selected .choice-letter,
+html[data-theme="dark"] .sidenav a[aria-current="page"],
+html[data-theme="dark"] .skip { color: #000; }
+html[data-theme="dark"] .btn-primary:hover:not(:disabled) { background: #e6e6e6; }
+html[data-theme="dark"] .hero-card .btn-primary { color: #fff; }
+html[data-theme="dark"] .path-unit .unit-num { color: #fff; }
+html[data-theme="dark"] .hero-card { box-shadow: 0 0 0 1px #262626; }
+html[data-theme="dark"] .complete-card .btn-primary { background: #fff; color: #000; }
+/* Surfaces that were hard-coded white */
+html[data-theme="dark"] .choice-letter,
+html[data-theme="dark"] .choice.is-selected,
+html[data-theme="dark"] .lesson-link.is-next,
+html[data-theme="dark"] .scenario-item.is-on,
+html[data-theme="dark"] .qmap-btn,
+html[data-theme="dark"] .lesson-dot,
+html[data-theme="dark"] .rating-opt,
+html[data-theme="dark"] input:focus, html[data-theme="dark"] select:focus, html[data-theme="dark"] textarea:focus { background: var(--card); }
+html[data-theme="dark"] .lang-toggle .lang-on { background: #3a3a3a; color: #fff; box-shadow: none; }
+html[data-theme="dark"] .dialog { background: #161616; color: var(--ink); }
+html[data-theme="dark"] .menu { background: #161616; }
+html[data-theme="dark"] .notice { color: var(--ink); }
+html[data-theme="dark"] .status-ok, html[data-theme="dark"] .level-solid { color: #7fe0a6; }
+html[data-theme="dark"] .status-warn, html[data-theme="dark"] .level-learning, html[data-theme="dark"] .label-illustrated { color: #ffd27a; }
+html[data-theme="dark"] .level-practicing { color: #a9c0ff; }
+html[data-theme="dark"] .week-dots li.on, html[data-theme="dark"] .day-cell.on { color: #000; }
+html[data-theme="dark"] .scene-svg { filter: brightness(0.92); }
+html[data-theme="dark"] .leaflet-container { filter: brightness(0.85) contrast(1.05); }
+html[data-theme="dark"] a { color: var(--cobalt-dark); }
+html[data-theme="dark"] .menu-item, html[data-theme="dark"] .sidenav a, html[data-theme="dark"] .bottomnav a,
+html[data-theme="dark"] .lesson-link, html[data-theme="dark"] .more-list a, html[data-theme="dark"] .brand { color: inherit; }
+html[data-theme="dark"] .btn-ghost { color: var(--ink); }
+html[data-theme="dark"] .brand { color: #fff; }
+html[data-theme="dark"] .more-list a, html[data-theme="dark"] .lesson-link { color: var(--ink); }
+html[data-theme="dark"] .path-unit .lesson-link.is-next .lesson-status { color: var(--ink); }
+html[data-theme="dark"] .stepper li.is-done { color: #7fe0a6; }
+html[data-theme="dark"] .btn-secondary { color: var(--ink); }

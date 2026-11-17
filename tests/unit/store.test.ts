@@ -146,3 +146,16 @@ describe('exam lifecycle', () => {
     expect(st.getState().profiles.p1.exams[0].answers[a.questionIds[0]]).not.toBe('zz');
   });
 });
+
+describe('settings added after release', () => {
+  it('loads data saved before the theme setting existed, defaulting to "system"', () => {
+    st.completeLesson('l-start-test', 4, 4);
+    const raw = JSON.parse(localStorage.getItem(STORAGE_KEY)!);
+    for (const id of Object.keys(raw.profiles)) delete raw.profiles[id].settings.theme;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(raw));
+    reload();
+    expect(st.getLoadStatus()).toBe('ok');
+    expect(st.getState().profiles.p1.settings.theme).toBe('system');
+    expect(st.getState().profiles.p1.completedLessons['l-start-test']).toBeTruthy();
+  });
+});

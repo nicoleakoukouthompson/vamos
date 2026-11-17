@@ -139,6 +139,12 @@ export function Settings() {
       <Card aria-labelledby="acc-h">
         <h2 id="acc-h">{t('accessibilitySection')}</h2>
         <label className="field">
+          <span>{t('appearance')}</span>
+          <select value={p.settings.theme ?? 'system'} onChange={(e) => updateSettings({ theme: e.target.value as 'system' | 'light' | 'dark' })}>
+            <option value="system">{t('theme_system')}</option><option value="light">{t('theme_light')}</option><option value="dark">{t('theme_dark')}</option>
+          </select>
+        </label>
+        <label className="field">
           <span>{t('reducedMotion')}</span>
           <select value={p.settings.reducedMotion} onChange={(e) => updateSettings({ reducedMotion: e.target.value as 'system' | 'on' | 'off' })}>
             <option value="system">{t('rm_system')}</option><option value="on">{t('rm_on')}</option><option value="off">{t('rm_off')}</option>

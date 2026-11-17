@@ -58,6 +58,19 @@ function useReducedMotion() {
     const root = document.documentElement;
     root.dataset.motion = p.settings.reducedMotion;
   }, [p.settings.reducedMotion]);
+  const pref = p.settings.theme ?? 'system';
+  useEffect(() => {
+    const root = document.documentElement;
+    const mq = window.matchMedia?.('(prefers-color-scheme: dark)');
+    const apply = () => {
+      const dark = pref === 'dark' || (pref === 'system' && !!mq?.matches);
+      root.dataset.theme = dark ? 'dark' : 'light';
+      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#000000' : '#ffffff');
+    };
+    apply();
+    mq?.addEventListener?.('change', apply);
+    return () => mq?.removeEventListener?.('change', apply);
+  }, [pref]);
 }
 
 function LearnerSwitcher() {
